@@ -14,14 +14,14 @@ jobs:
 
   build_success:
     needs: build
-    if: needs.build.outputs.build_status
+    if: needs.build.outputs.build_status == true
     runs-on: ubuntu-latest
     steps:
     - run: echo build success
 
   build_failure:
     needs: build
-    if: ! needs.build.outputs.build_status
+    if: needs.build.outputs.build_status == false
     runs-on: ubunu-latest
     steps:
     - run: echo build failure
