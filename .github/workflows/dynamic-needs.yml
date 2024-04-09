@@ -1,0 +1,25 @@
+name: dynamic needs
+
+on:
+  workflow_dispatch:
+
+env:
+  PRECHECK: precheck
+
+jobs:
+  precheck:
+    runs-on: ubuntu-latest
+    steps:
+    - run: echo precheck
+
+  build_amd64:
+    needs: ${{ env.PRECHECK }}
+    runs-on: ubuntu-latest
+    steps:
+    - run: echo build amd64
+
+  build_arm64:
+    needs: ${{ env.PRECHECK }}
+    runs-on: ubunu-latest
+    steps:
+    - run: echo build arm64
