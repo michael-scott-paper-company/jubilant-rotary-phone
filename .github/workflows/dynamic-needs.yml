@@ -7,7 +7,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     outputs:
-      build_status: ${{ steps.step1.outputs.test }}
+      build_status: ${{ steps.build.outputs.build_status }}
     steps:
     - id: build
       run: echo "build_status=true" >> "$GITHUB_OUTPUT"
