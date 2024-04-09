@@ -3,23 +3,25 @@ name: dynamic needs
 on:
   workflow_dispatch:
 
-env:
-  PRECHECK: precheck
-
 jobs:
-  precheck:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      build_status: ${{ steps.step1.outputs.test }}
+    steps:
+    - id: build
+      run: echo "build_status=true" >> "$GITHUB_OUTPUT"
+
+  build_success:
+    needs: build
+    if: needs.build.outputs.build_status
     runs-on: ubuntu-latest
     steps:
-    - run: echo precheck
+    - run: echo build success
 
-  build_amd64:
-    needs: ${{ env.PRECHECK }}
-    runs-on: ubuntu-latest
-    steps:
-    - run: echo build amd64
-
-  build_arm64:
-    needs: ${{ env.PRECHECK }}
+  build_failure:
+    needs: build
+    if: ! needs.build.outputs.build_status
     runs-on: ubunu-latest
     steps:
-    - run: echo build arm64
+    - run: echo build failure
